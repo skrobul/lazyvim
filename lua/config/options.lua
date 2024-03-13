@@ -14,3 +14,4 @@ opt.wildignore:append("**/node_modules")
 vim.env.OVERCOMMIT_COLOR = 0
 
 opt.titlelen = 15
+opt.relativenumber = false
