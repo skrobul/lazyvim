@@ -15,3 +15,6 @@ vim.env.OVERCOMMIT_COLOR = 0
 
 opt.titlelen = 15
 opt.relativenumber = false
+
+-- no autoformatting by default
+vim.g.autoformat = false
