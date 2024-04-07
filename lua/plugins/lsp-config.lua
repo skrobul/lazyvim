@@ -42,54 +42,11 @@ return {
             new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
             vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
           end,
-        },
-        jsonls = {
-          setup = {
-            settings = {
-              schemas = require("schemastore").json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-      },
-    },
-  },
-  {
-    "someone-stole-my-name/yaml-companion.nvim",
-    dependencies = {
-      { "neovim/nvim-lspconfig" },
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
-    },
-    config = function()
-      require("telescope").load_extension("yaml_schema")
-      local cfg = require("yaml-companion").setup({
-        -- Add any options here, or leave empty to use the default settings
-        -- Additional schemas available in Telescope picker
-        schemas = {
-          {
-            name = "Kubernetes 1.25.9",
-            uri = "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.25.9-standalone-strict/all.json",
-          },
-          {
-            name = "Argo Workflows",
-            uri = "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
-          },
-          {
-            name = "Argo Events",
-            uri = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json",
-          },
-        },
-        builtin_matchers = {
-          kubernetes = { enabled = true },
-          cloud_init = { enabled = false },
-        },
-        lspconfig = {
           settings = {
             redhat = { telemetry = { enabled = false } },
-            flags = {
-              debounce_text_changes = 150,
-            },
+            -- flags = {
+            --   debounce_text_changes = 150,
+            -- },
             -- trace = { server = "debug" },
             yaml = {
               keyOrdering = false,
@@ -175,7 +132,7 @@ return {
                     fileMatch = {
                       "/**argo-workflows/**/workflowtemplates/*.{yml,yaml}",
                       "/**argo-workflows/**/workflows/*.{yml,yaml}",
-                    }
+                    },
                   },
                   {
                     description = "Argo Events",
@@ -183,9 +140,81 @@ return {
                     name = "schema.json",
                     fileMatch = "/**argo-workflows/**/sensors/*.{yml,yaml}",
                   },
+                  {
+                    name = "SealedSecret",
+                    description = "Sealed Secret",
+                    fileMatch = "sealed-*{yaml,yml}",
+                    url = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/bitnami.com/sealedsecret_v1alpha1.json",
+                  },
+                  {
+                    url = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json",
+                    name = "Argo CD Application",
+                    description = "Argo CD Application",
+                    fileMatch = "argocd-application.yaml",
+                  },
                 },
               }),
             },
+          },
+        },
+        jsonls = {
+          setup = {
+            settings = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
+    dependencies = {
+      { "neovim/nvim-lspconfig" },
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" },
+      { "b0o/SchemaStore.nvim" },
+    },
+    opts = {
+    },
+    config = function(_, opts)
+      require("telescope").load_extension("yaml_schema")
+
+      local json_schemas = require('schemastore').json.schemas {}
+      local yaml_schemas = {}
+      vim.tbl_map(function(schema)
+        yaml_schemas[schema.url] = schema.fileMatch
+      end, json_schemas)
+
+      local cfg = require("yaml-companion").setup({
+
+        -- Add any options here, or leave empty to use the default settings
+        -- Additional schemas available in Telescope picker
+        schemas = {
+          {
+            name = "Kubernetes 1.25.9",
+            uri = "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.25.9-standalone-strict/all.json",
+          },
+          {
+            name = "Argo Workflows",
+            uri = "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
+          },
+          {
+            name = "Argo Events",
+            uri = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json",
+          },
+        },
+        builtin_matchers = {
+          kubernetes = { enabled = true },
+          cloud_init = { enabled = false },
+        },
+        -- schemas = require("schemastore").yaml.schemas(),
+        lspconfig = {
+          settings = {
+            yaml = {
+              -- schemas = yaml_schemas
+            }
           },
         },
       })
