@@ -42,47 +42,12 @@ return {
             new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
             vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
           end,
-          settings = {
-            redhat = { telemetry = { enabled = false } },
-            yaml = {
-              keyOrdering = false,
-              format = {
-                enable = true,
-              },
-              validate = true,
-              hover = true,
-              completion = true,
-              schemaStore = {
-                -- Must disable built-in schemaStore support to use
-                -- schemas from SchemaStore.nvim plugin
-                enable = false,
-                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                url = "",
-              },
-              schemas = require("schemastore").yaml.schemas({
-                extra = {
-                ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-                ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-                ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-                ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-                ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-                ["http://json.schemastore.org/ansible-playbook"] = "*play*.{yml,yaml}",
-                ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-                ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
-                ["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-                ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-                ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
-                ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
-                }
-              }),
-            },
-          },
         },
         jsonls = {
           setup = {
             settings = {
               schemas = require("schemastore").json.schemas(),
-              validate = { enable = true }
+              validate = { enable = true },
             },
           },
         },
@@ -112,13 +77,117 @@ return {
           },
           {
             name = "Argo Events",
-            uri = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json"
-          }
+            uri = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json",
+          },
         },
         builtin_matchers = {
           kubernetes = { enabled = true },
-          cloud_init = { enabled = false}
-        }
+          cloud_init = { enabled = false },
+        },
+        lspconfig = {
+          settings = {
+            redhat = { telemetry = { enabled = false } },
+            flags = {
+              debounce_text_changes = 150,
+            },
+            -- trace = { server = "debug" },
+            yaml = {
+              keyOrdering = false,
+              format = {
+                enable = true,
+              },
+              validate = true,
+              hover = true,
+              completion = true,
+              schemaStore = {
+                -- Must disable built-in schemaStore support to use
+                -- schemas from SchemaStore.nvim plugin
+                enable = false,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = "",
+              },
+              schemas = require("schemastore").yaml.schemas({
+                extra = {
+                  {
+                    description = "Github Actions",
+                    fileMatch = ".github/action.{yml,yaml}",
+                    url = "http://json.schemastore.org/github-action",
+                    name = "github-action",
+                  },
+                  {
+                    description = "Ansible Stable 2.9",
+                    url = "http://json.schemastore.org/ansible-stable-2.9",
+                    name = "ansible-stable-2.9",
+                    fileMatch = "roles/tasks/*.{yml,yaml}",
+                  },
+                  {
+                    description = "Prettierrc",
+                    url = "http://json.schemastore.org/prettierrc",
+                    name = "prettierrc",
+                    fileMatch = ".prettierrc.{yml,yaml}",
+                  },
+                  {
+                    description = "Kustomization",
+                    url = "http://json.schemastore.org/kustomization",
+                    name = "kustomization",
+                    fileMatch = "kustomization.{yml,yaml}",
+                  },
+                  {
+                    description = "Ansible Playbooks",
+                    url = "http://json.schemastore.org/ansible-playbook",
+                    name = "ansible-playbook",
+                    fileMatch = "*play*.{yml,yaml}",
+                  },
+                  {
+                    description = "Helm Chart",
+                    url = "http://json.schemastore.org/chart",
+                    name = "chart",
+                    fileMatch = "Chart.{yml,yaml}",
+                  },
+                  {
+                    description = "Dependabot config",
+                    url = "https://json.schemastore.org/dependabot-v2",
+                    name = "dependabot-v2",
+                    fileMatch = ".github/dependabot.{yml,yaml}",
+                  },
+                  {
+                    description = "Gitlab CI",
+                    url = "https://json.schemastore.org/gitlab-ci",
+                    name = "gitlab-ci",
+                    fileMatch = "*gitlab-ci*.{yml,yaml}",
+                  },
+                  {
+                    description = "OpenAPI v3",
+                    url = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json",
+                    name = "schema.json",
+                    fileMatch = "*api*.{yml,yaml}",
+                  },
+                  {
+                    description = "Docker Compose",
+                    url = "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json",
+                    name = "compose-spec.json",
+                    fileMatch = "*docker-compose*.{yml,yaml}",
+                  },
+                  {
+                    description = "Argo Workflows",
+                    url = "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
+                    name = "workflows.json",
+                    fileMatch = {
+                      "/**argo-workflows/**/workflowtemplates/*.{yml,yaml}",
+                      "/**argo-workflows/**/workflows/*.{yml,yaml}",
+                    }
+                  },
+                  {
+                    description = "Argo Events",
+                    url = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json",
+                    name = "schema.json",
+                    fileMatch = "/**argo-workflows/**/sensors/*.{yml,yaml}",
+                  },
+                },
+              }),
+            },
+          },
+        },
       })
       require("lspconfig")["yamlls"].setup(cfg)
     end,
