@@ -15,6 +15,8 @@ return {
     },
     opts = {
       setup = {
+        -- you can do any additional lsp server setup here
+        -- return true if you don't want this server to be setup with lspconfig
         yamlls = function()
           require("lazyvim.util").lsp.on_attach(function(client, bufnr)
             if client.name == "yamlls" and vim.bo.filetype == "helm" then
@@ -57,7 +59,8 @@ return {
                 -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
                 url = "",
               },
-              schemas = {
+              schemas = require("schemastore").yaml.schemas({
+                extra = {
                 ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
                 ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
                 ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
@@ -70,8 +73,16 @@ return {
                 ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
                 ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
                 ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
-                -- kubernetes = "*.yaml",
-              },
+                }
+              }),
+            },
+          },
+        },
+        jsonls = {
+          setup = {
+            settings = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true }
             },
           },
         },
@@ -99,7 +110,15 @@ return {
             name = "Argo Workflows",
             uri = "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
           },
+          {
+            name = "Argo Events",
+            uri = "https://github.com/argoproj/argo-events/raw/master/api/jsonschema/schema.json"
+          }
         },
+        builtin_matchers = {
+          kubernetes = { enabled = true },
+          cloud_init = { enabled = false}
+        }
       })
       require("lspconfig")["yamlls"].setup(cfg)
     end,
