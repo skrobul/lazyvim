@@ -176,21 +176,13 @@ return {
           kubernetes = { enabled = true },
           cloud_init = { enabled = false },
         },
-        -- schemas = require("schemastore").yaml.schemas(),
-        -- lspconfig = {
-        --   settings = {
-        --     yaml = {
-        --       -- schemas = yaml_schemas
-        --     },
-        --   },
-        -- },
         lspconfig = {
           settings = {
             redhat = { telemetry = { enabled = false } },
             flags = {
               debounce_text_changes = 150,
             },
-            trace = { server = "debug" },
+            trace = { server = "info" },
             yaml = {
               keyOrdering = false,
               format = {
