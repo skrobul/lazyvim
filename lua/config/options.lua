@@ -18,3 +18,5 @@ opt.relativenumber = false
 
 -- no autoformatting by default
 vim.g.autoformat = false
+
+opt.laststatus = 2
