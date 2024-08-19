@@ -5,6 +5,9 @@ return {
       modes = {
         search = {
           enabled = false
+        },
+        char = {
+          enabled = false
         }
       }
     }
