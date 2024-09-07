@@ -46,15 +46,13 @@ return {
     }
     require("gp").setup(conf)
 
-    -- disable diagnostics
-    vim.api.nvim_create_autocmd({ "User" }, {
-        pattern = {"GpDone"},
-        callback = function(event)
-            local buf = event.buf
-            if (vim.diagnostic.is_enabled({bufnr = buf})) then
-                vim.diagnostic.enable(false, { bufnr = buf })
-            end
-        end,
+    -- disable diagnostics for markdown
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+      pattern = { vim.fn.expand("~/") .. ".local/share/nvim/gp/chats/*" },
+      callback = function(event)
+        local buf = event.buf
+        vim.diagnostic.enable(false, { bufnr = buf })
+      end,
     })
   end,
   cmd = {
