@@ -1,6 +1,8 @@
 return {
   "robitx/gp.nvim",
   config = function()
+local uname = vim.loop.os_uname().sysname
+
     local conf = {
       providers = {
         groq = {
@@ -9,9 +11,14 @@ return {
           secret = os.getenv("GROQ_API_KEY"),
         },
         openai = {
-          disable = true,
+          disable = false,
           endpoint = "https://api.openai.com/v1/chat/completions",
-          -- secret = os.getenv("OPENAI_API_KEY"),
+          secret = os.getenv("OPENAI_API_KEY"),
+        },
+        ollama = {
+          disable = false,
+          endpoint = "http://localhost:11434/v1/chat/completions",
+          secret = "dummy_secret",
         },
       },
       agents = {
@@ -42,8 +49,73 @@ return {
           },
           system_prompt = require("gp.defaults").code_system_prompt,
         },
+        {
+          name = "ChatGPT4o",
+          chat = true,
+          command = false,
+          -- string with model name or table with model name and parameters
+          model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
+        {
+          provider = "openai",
+          name = "ChatGPT4o-mini",
+          chat = true,
+          command = false,
+          -- string with model name or table with model name and parameters
+          model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1 },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
+        {
+          provider = "openai",
+          name = "CodeGPT4o-mini",
+          chat = false,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = { model = "gpt-4o-mini", temperature = 0.7, top_p = 1 },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = "Please return ONLY code snippets.\nSTART AND END YOUR ANSWER WITH:\n\n```",
+        },
+        {
+          provider = "openai",
+          name = "CodeGPT4o",
+          chat = false,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
+        {
+          provider = "ollama",
+          name = "deepseek-coder-v2:16b",
+          chat = false,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = {
+            model = "deepseek-coder-v2:16b",
+            temperature = 0.6,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
       },
+      -- default agent names set during startup, if nil last used agent is used
+      default_command_agent = "CodeGroqLlama3.1-70B",
+      default_chat_agent = "ChatGPT4o-mini",
+      log_sensitive = false,
+
+      whisper = {}
     }
+    if uname == 'Darwin' then
+      conf.whisper.rec_cmd = { "ffmpeg", "-y", "-f", "avfoundation", "-i", ":0", "-t", "3600", "rec.wav" }
+    elseif uname == 'Linux' then
+      conf.whisper.rec_cmd = { "ffmpeg", "-y", "-f", "pulse", "-i", ":0", "-t", "3600", "rec.wav" }
+    end
     require("gp").setup(conf)
 
     -- disable diagnostics for markdown
@@ -72,6 +144,15 @@ return {
     "GpPopup",
     "GpImplement",
     "GpContext",
+    "GpWhisper",
+    "GpWhisperRewrite",
+    "GpWhisperAppend",
+    "GpWhisperPrepend",
+    "GpWhisperEnew",
+    "GpWhisperNew",
+    "GpWhisperVnew",
+    "GpWhisperTabnew",
+    "GpWhisperPopup",
   },
   keys = {
     {
