@@ -8,18 +8,23 @@ local uname = vim.loop.os_uname().sysname
         groq = {
           disable = false,
           endpoint = "https://api.groq.com/openai/v1/chat/completions",
-          secret = os.getenv("GROQ_API_KEY"),
+          secret = { "rbw", "get", "console.groq.com" }
         },
         openai = {
           disable = false,
           endpoint = "https://api.openai.com/v1/chat/completions",
-          secret = os.getenv("OPENAI_API_KEY"),
+          secret = { "rbw", "get", "platform.openai.com API key" }
         },
         ollama = {
           disable = false,
           endpoint = "http://localhost:11434/v1/chat/completions",
           secret = "dummy_secret",
         },
+        openrouter = {
+          disable = false,
+          endpoint = "https://openrouter.ai/api/v1/chat/completions",
+          secret = { "rbw", "get", "openrouter.ai API key"}
+        }
       },
       agents = {
         {
@@ -96,6 +101,36 @@ local uname = vim.loop.os_uname().sysname
           -- string with model name or table with model name and parameters
           model = {
             model = "deepseek-coder-v2:16b",
+            temperature = 0.6,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
+        {
+          provider = "openrouter",
+          name = "openrouter llama3-8b-instruct",
+          chat = false,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = {
+            model = "meta-llama/llama-3-8b-instruct:free",
+            temperature = 0.6,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
+        {
+          provider = "openrouter",
+          name = "openrouter llama3-8b-instruct",
+          chat = true,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = {
+            model = "meta-llama/llama-3-8b-instruct:free",
             temperature = 0.6,
             top_p = 1,
             min_p = 0.05,
