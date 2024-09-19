@@ -20,7 +20,7 @@ return {
         },
         window = { margin = { vertical = 0, horizontal = 1 } },
         hide = {
-          cursorline = true,
+          cursorline = false,
         },
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
@@ -28,8 +28,15 @@ return {
             filename = "[+] " .. filename
           end
 
+          local tab_section
+          if vim.fn.tabpagenr('$') < 2 then
+            tab_section = {}
+          else
+            tab_section = { vim.api.nvim_get_current_tabpage() }
+          end
+
           local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-          return { { icon, guifg = color }, { " " }, { filename } }
+          return { tab_section, { icon }, { " " }, { filename } }
         end,
       })
 
