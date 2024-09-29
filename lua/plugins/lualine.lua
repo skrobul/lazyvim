@@ -10,7 +10,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, get_schema)
+--      table.insert(opts.sections.lualine_x, get_schema)
       -- table.remove(opts.sections.lualine_c)
       -- table.insert(opts.sections.lualine_c, {
       --   "filename",

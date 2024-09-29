@@ -104,52 +104,54 @@ return {
       "b0o/SchemaStore.nvim",
       version = false, -- last release is way too old
     },
-    opts = {
-      setup = {
-        -- you can do any additional lsp server setup here
-        -- return true if you don't want this server to be setup with lspconfig
-        yamlls = function()
-          require("lazyvim.util").lsp.on_attach(function(client, bufnr)
-            if client.name == "yamlls" and vim.bo.filetype == "helm" then
-              vim.lsp.stop_client(bufnr, client.id)
-            end
-          end)
-        end,
-      },
-      -- make sure mason installs the server
-      servers = {
-        yamlls = {
-          -- Have to add this for yamlls to understand that we support line folding
-          capabilities = {
-            textDocument = {
-              foldingRange = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
+    opts = function(_, opts)
+      return vim.list_extend(opts.servers or {}, {
+        setup = {
+          -- you can do any additional lsp server setup here
+          -- return true if you don't want this server to be setup with lspconfig
+          yamlls = function()
+            require("lazyvim.util").lsp.on_attach(function(client, bufnr)
+              if client.name == "yamlls" and vim.bo.filetype == "helm" then
+                vim.lsp.stop_client(bufnr, client.id)
+              end
+            end)
+          end,
+        },
+        -- make sure mason installs the server
+        servers = {
+          yamlls = {
+            -- Have to add this for yamlls to understand that we support line folding
+            capabilities = {
+              textDocument = {
+                foldingRange = {
+                  dynamicRegistration = false,
+                  lineFoldingOnly = true,
+                },
+              },
+            },
+            -- lazy-load schemastore when needed
+            on_new_config = function(new_config)
+              new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
+              vim.list_extend(
+                new_config.settings.yaml.schemas,
+                require("schemastore").yaml.schemas({ extra = extra_schemes })
+              )
+            end,
+            -- don't set any settings here, they will be overriden by the config
+            -- injected in the yaml-companion plugin below
+            settings = {},
+          },
+          jsonls = {
+            setup = {
+              settings = {
+                schemas = require("schemastore").json.schemas(),
+                validate = { enable = true },
               },
             },
           },
-          -- lazy-load schemastore when needed
-          on_new_config = function(new_config)
-            new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
-            vim.list_extend(
-              new_config.settings.yaml.schemas,
-              require("schemastore").yaml.schemas({ extra = extra_schemes })
-            )
-          end,
-          -- don't set any settings here, they will be overriden by the config
-          -- injected in the yaml-companion plugin below
-          settings = {},
         },
-        jsonls = {
-          setup = {
-            settings = {
-              schemas = require("schemastore").json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-      },
-    },
+      })
+    end,
   },
   {
     "someone-stole-my-name/yaml-companion.nvim",
