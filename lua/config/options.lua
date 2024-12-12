@@ -3,7 +3,7 @@
 -- Add any additional options here
 local opt = vim.opt
 
-opt.spellfile = "~/dotfiles/vim/spell/en.utf-8.add"
+opt.spellfile = vim.fn.expand("~") .. "/dotfiles/vim/spell/en.utf-8.add"
 opt.listchars = { tab = ">~", nbsp = "␣", trail = "•", extends = "⟩", precedes = "⟨" }
 opt.showbreak = "↪"
 opt.showmatch = true
