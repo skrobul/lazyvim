@@ -67,13 +67,13 @@ local uname = vim.loop.os_uname().sysname
           system_prompt = require("gp.defaults").chat_system_prompt,
         },
         {
-          name = "ChatGroqLlama3.1-70B",
+          name = "ChatGroqLlama3.3-70B",
           provider = "groq",
           chat = true,
           command = false,
           -- string with model name or table with model name and parameters
           model = {
-            model = "llama-3.1-70b-versatile",
+            model = "llama-3.3-70b-versatile",
             temperature = 0.6,
             top_p = 1,
             min_p = 0.05,
@@ -81,12 +81,12 @@ local uname = vim.loop.os_uname().sysname
           system_prompt = require("gp.defaults").chat_system_prompt,
         },
         {
-          name = "CodeGroqLlama3.1-70B",
+          name = "CodeGroqLlama3.3-70B",
           provider = "groq",
           chat = false,
           command = true,
           model = {
-            model = "llama-3.1-70b-versatile",
+            model = "llama-3.3-70b-versatile",
             temperature = 0.4,
             top_p = 1,
             min_p = 0.05,
