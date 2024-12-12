@@ -24,6 +24,12 @@ return {
         command = "python",
         args = { "-m", "debugpy.adapter" },
       },
+      debugpy = {
+        type = "executable",
+        -- command = "path/to/virtualenvs/debugpy/bin/python",
+        command = "python",
+        args = { "-m", "debugpy.adapter" },
+      },
       ruby = function(callback, config)
         callback {
           type = "server",
