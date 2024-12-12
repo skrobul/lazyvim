@@ -28,6 +28,45 @@ local uname = vim.loop.os_uname().sysname
       },
       agents = {
         {
+          name = "qwen2.5-coder:14-ollama-code",
+          provider = "ollama",
+          chat = true,
+          command = true,
+          model = {
+            model = "qwen2.5-coder",
+            temperature = 0.4,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
+        {
+          name = "llama3.2:latest-ollama-chat",
+          provider = "ollama",
+          chat = true,
+          command = false,
+          model = {
+            model = "llama-3.2",
+            temperature = 0.6,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
+        {
+          name = "llama3.2:latest-ollama-code",
+          provider = "ollama",
+          chat = false,
+          command = true,
+          model = {
+            model = "llama-3.2",
+            temperature = 0.4,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          system_prompt = require("gp.defaults").chat_system_prompt,
+        },
+        {
           name = "ChatGroqLlama3.1-70B",
           provider = "groq",
           chat = true,
