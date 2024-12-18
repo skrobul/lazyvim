@@ -12,18 +12,25 @@ return {
       {
         "<leader>gn",
         function()
-          require("neogit").open()
+          require("neogit").open({ cwd = LazyVim.root.git() })
         end,
         desc = "Neogit (full)",
       },
       {
         "<leader>gN",
         function()
-          require("neogit").open({ kind = "split" })
+          require("neogit").open({ kind = "split", cwd = LazyVim.root.git() })
         end,
         desc = "Neogit (split)",
       },
     },
-    config = true,
+    config = {
+      graph_style = "kitty",
+      git_services = {
+        ["github.com"] = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+        ["github.rackspace.com"] = "https://github.rackspace.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+      },
+      disable_insert_on_commit = false,
+    },
   },
 }
