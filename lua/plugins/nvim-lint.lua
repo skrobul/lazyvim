@@ -5,7 +5,7 @@ return {
       -- Event to trigger linters
       event = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
-        markdown = { "markdownlint" }
+        markdown = { "markdownlint-cli2" }
         -- fish = { "fish" },
         -- Use the "*" filetype to run linters on all filetypes.
         -- ['*'] = { 'global linter' },

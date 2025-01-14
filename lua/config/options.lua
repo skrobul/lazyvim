@@ -20,3 +20,5 @@ opt.relativenumber = false
 vim.g.autoformat = false
 
 opt.laststatus = 2
+
+vim.g.snacks_animate = false
