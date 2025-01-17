@@ -22,3 +22,4 @@ vim.g.autoformat = false
 opt.laststatus = 2
 
 vim.g.snacks_animate = false
+vim.g.lazyvim_blink_main = false
