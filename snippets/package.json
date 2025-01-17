@@ -1,0 +1,22 @@
+{
+  "name": "mareks-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "ruby",
+        "path": "./ruby.json"
+      },
+      {
+        "language": "Jenkinsfile",
+        "path": "./jenkinsfile.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      }
+    ]
+  }
+}
