@@ -24,7 +24,7 @@ return {
         desc = "Neogit (split)",
       },
     },
-    config = {
+    opts = {
       graph_style = "kitty",
       git_services = {
         ["github.com"] = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
