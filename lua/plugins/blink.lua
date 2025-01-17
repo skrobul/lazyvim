@@ -1,6 +1,9 @@
 return {
   {
     "saghen/blink.cmp",
+    dependencies = {
+      { "saghen/blink.compat" },
+    },
     opts = {
       snippets = {
         expand = function(snippet, _)
@@ -35,6 +38,12 @@ return {
         ghost_text = {
           enabled = vim.g.ai_cmp,
         },
+        list = {
+          selection = {
+            preselect = true,
+            auto_insert = true,
+          },
+        },
       },
 
       -- experimental signature help support
@@ -43,16 +52,15 @@ return {
       sources = {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
-        compat = {},
+        compat = { "obsidian", "obsidian_new", "obsidian_tags" },
         default = { "lsp", "path", "snippets", "buffer" },
         cmdline = {},
       },
 
       keymap = {
-        preset = "default",
-        -- ["<C-y>"] = { "select_and_accept" },
-        ['<Up>'] = { 'select_prev', 'fallback' },
-        ['<Down>'] = { 'select_next', 'fallback' },
+        preset = "enter",
+        ["<C-y>"] = { "select_and_accept" },
+        ["<S-CR>"] = { "fallback" },
       },
     },
   },
