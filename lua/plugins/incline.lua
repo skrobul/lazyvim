@@ -3,6 +3,7 @@ return {
     "b0o/incline.nvim",
     dependencies = { "folke/tokyonight.nvim" },
     event = "VeryLazy",
+    enabled = false,
     priority = 10,
     config = function()
       local colors = require("tokyonight.colors").setup({ style = "moon" })
