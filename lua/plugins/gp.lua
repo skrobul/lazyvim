@@ -1,19 +1,19 @@
 return {
   "robitx/gp.nvim",
   config = function()
-local uname = vim.loop.os_uname().sysname
+    local uname = vim.loop.os_uname().sysname
 
     local conf = {
       providers = {
         groq = {
           disable = false,
           endpoint = "https://api.groq.com/openai/v1/chat/completions",
-          secret = { "rbw", "get", "console.groq.com" }
+          secret = { "rbw", "get", "console.groq.com" },
         },
         openai = {
           disable = false,
           endpoint = "https://api.openai.com/v1/chat/completions",
-          secret = { "rbw", "get", "platform.openai.com API key" }
+          secret = { "rbw", "get", "platform.openai.com API key" },
         },
         ollama = {
           disable = false,
@@ -23,8 +23,8 @@ local uname = vim.loop.os_uname().sysname
         openrouter = {
           disable = false,
           endpoint = "https://openrouter.ai/api/v1/chat/completions",
-          secret = { "rbw", "get", "openrouter.ai API key"}
-        }
+          secret = { "rbw", "get", "openrouter.ai API key" },
+        },
       },
       agents = {
         {
@@ -103,6 +103,25 @@ local uname = vim.loop.os_uname().sysname
           system_prompt = require("gp.defaults").chat_system_prompt,
         },
         {
+          provider = "ollama",
+          name = "deepseek-r1:14b",
+          chat = true,
+          command = false,
+          -- string with model name or table with model name and parameters
+          model = {
+            model = "deepseek-r1:14b",
+            temperature = 0.4,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
+
+        ---
+        --- CODE models
+        ---
+        {
           provider = "openai",
           name = "ChatGPT4o-mini",
           chat = true,
@@ -148,6 +167,21 @@ local uname = vim.loop.os_uname().sysname
           system_prompt = require("gp.defaults").code_system_prompt,
         },
         {
+          provider = "ollama",
+          name = "code-deepseek-r1:14b",
+          chat = false,
+          command = true,
+          -- string with model name or table with model name and parameters
+          model = {
+            model = "deepseek-r1:14b",
+            temperature = 0.6,
+            top_p = 1,
+            min_p = 0.05,
+          },
+          -- system prompt (use this to specify the persona/role of the AI)
+          system_prompt = require("gp.defaults").code_system_prompt,
+        },
+        {
           provider = "openrouter",
           name = "openrouter llama3-8b-instruct",
           chat = false,
@@ -183,11 +217,11 @@ local uname = vim.loop.os_uname().sysname
       default_chat_agent = "ChatGroqLlama3.1-70B",
       log_sensitive = false,
 
-      whisper = {}
+      whisper = {},
     }
-    if uname == 'Darwin' then
+    if uname == "Darwin" then
       conf.whisper.rec_cmd = { "ffmpeg", "-y", "-f", "avfoundation", "-i", ":0", "-t", "3600", "rec.wav" }
-    elseif uname == 'Linux' then
+    elseif uname == "Linux" then
       conf.whisper.rec_cmd = { "ffmpeg", "-y", "-f", "pulse", "-i", ":0", "-t", "3600", "rec.wav" }
     end
     require("gp").setup(conf)
@@ -200,6 +234,22 @@ local uname = vim.loop.os_uname().sysname
         vim.diagnostic.enable(false, { bufnr = buf })
       end,
     })
+
+    vim.api.nvim_create_user_command("GpSelectAgent", function()
+      local buf = vim.api.nvim_get_current_buf()
+      local file_name = vim.api.nvim_buf_get_name(buf)
+      local is_chat = require("gp").not_chat(buf, file_name) == nil
+      local models = is_chat and require("gp")._chat_agents or require("gp")._command_agents
+      local prompt_title = is_chat and 'Chat Models' or 'Completion Models'
+      require("fzf-lua").fzf_exec(models, {
+        prompt = prompt_title,
+        actions = {
+          ["default"] = function(selected, _)
+            require("gp").cmd.Agent({ args = selected[1] })
+          end,
+        },
+      })
+    end, {})
   end,
   cmd = {
     "GpChatNew",
@@ -218,6 +268,7 @@ local uname = vim.loop.os_uname().sysname
     "GpPopup",
     "GpImplement",
     "GpContext",
+    "GpSelectAgent",
     "GpWhisper",
     "GpWhisperRewrite",
     "GpWhisperAppend",
@@ -318,6 +369,7 @@ local uname = vim.loop.os_uname().sysname
     { "<C-g>r", "<cmd>GpRewrite<cr>", desc = "Inline Rewrite", mode = "n", nowait = true, remap = false },
     { "<C-g>s", "<cmd>GpStop<cr>", desc = "GpStop", mode = "n", nowait = true, remap = false },
     { "<C-g>t", "<cmd>GpChatToggle<cr>", desc = "Toggle Chat", mode = "n", nowait = true, remap = false },
+    { "<C-g>o", "<cmd>GpSelectAgent<cr>", desc = "Select Agent", mode = "n", nowait = true, remap = false },
     { "<C-g>w", group = "Whisper", mode = "n", nowait = true, remap = false },
     {
       "<C-g>wa",
