@@ -1,7 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
   config = function(_, _)
-
     -- lazyvim defaults
     local Config = require("lazyvim.config")
     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -14,7 +13,6 @@ return {
       )
     end
     -- end of lazyvim defaults
-
 
     local dap = require("dap")
     dap.adapters = {
@@ -31,18 +29,29 @@ return {
         args = { "-m", "debugpy.adapter" },
       },
       ruby = function(callback, config)
-        callback {
+        callback({
           type = "server",
           host = "127.0.0.1",
           port = "${port}",
           executable = {
             command = "bundle",
-            args = { "exec", "rdbg", "-n", "--open", "--port", "${port}",
-              "-c", "--", "bundle", "exec", config.command, config.script,
+            args = {
+              "exec",
+              "rdbg",
+              "-n",
+              "--open",
+              "--port",
+              "${port}",
+              "-c",
+              "--",
+              "bundle",
+              "exec",
+              config.command,
+              config.script,
             },
           },
-        }
-      end
+        })
+      end,
     }
     dap.configurations = {
       python = {
@@ -86,10 +95,26 @@ return {
           command = "rspec",
           script = "${file}",
         },
-      }
+      },
     }
   end,
   keys = {
-    { "<leader>dz", function() require('dap.ext.vscode').load_launchjs(nil, {}) end, desc="Load launch.json" }
-  }
+    {
+      "<leader>dz",
+      function()
+        require("dap.ext.vscode").load_launchjs(nil, {})
+      end,
+      desc = "Load launch.json",
+    },
+    {
+      "<leader>df",
+      function()
+        local dap = require("dap")
+        local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"))
+        dap.repl.open()
+        dap.repl.execute(table.concat(lines, "\n"))
+      end,
+      desc = "Send to repl"
+    },
+  },
 }
