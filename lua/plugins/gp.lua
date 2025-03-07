@@ -213,8 +213,8 @@ return {
         },
       },
       -- default agent names set during startup, if nil last used agent is used
-      default_command_agent = "CodeGroqLlama3.1-70B",
-      default_chat_agent = "ChatGroqLlama3.1-70B",
+      -- default_command_agent = "CodeGroqLlama3.1-70B",
+      -- default_chat_agent = "ChatGroqLlama3.1-70B",
       log_sensitive = false,
 
       whisper = {},
