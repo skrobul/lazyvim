@@ -33,7 +33,7 @@ return {
           chat = true,
           command = true,
           model = {
-            model = "qwen2.5-coder",
+            model = "qwen2.5-coder:14b",
             temperature = 0.4,
             top_p = 1,
             min_p = 0.05,
@@ -46,7 +46,7 @@ return {
           chat = true,
           command = false,
           model = {
-            model = "llama-3.2",
+            model = "llama3.2:latest",
             temperature = 0.6,
             top_p = 1,
             min_p = 0.05,
@@ -59,7 +59,7 @@ return {
           chat = false,
           command = true,
           model = {
-            model = "llama-3.2",
+            model = "llama3.2:latest",
             temperature = 0.4,
             top_p = 1,
             min_p = 0.05,

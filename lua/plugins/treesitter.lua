@@ -8,6 +8,7 @@ return {
       "c",
       "diff",
       "html",
+      "hurl",
       "javascript",
       "jsdoc",
       "json",
