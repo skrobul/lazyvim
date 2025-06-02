@@ -77,6 +77,27 @@ return {
             end
           end,
         },
+        {
+          type = 'python',
+          request = 'launch',
+          name = 'Local Launch with gevent',
+          program = '${file}',
+          gevent = true
+        },
+        {
+          name = 'Attach localhost:5678',
+          type = 'python',
+          request = 'attach',
+          port = 5678,
+          host = '127.0.0.1',
+          -- /var/lib/openstack/lib/python3.10/site-packages/neutron_understack/routers.py
+          pathMappings = {
+            {
+            localRoot = "${workspaceFolder}/python/neutron_understack/",
+            remoteRoot = "/var/lib/openstack/lib/python3.10/site-packages/"
+            }
+          }
+        }
       },
       ruby = {
         {
