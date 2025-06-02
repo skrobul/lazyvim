@@ -20,6 +20,7 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
+        keyword = { range = "prefix"},
         accept = {
           -- experimental auto-brackets support
           auto_brackets = {
@@ -37,6 +38,9 @@ return {
         },
         ghost_text = {
           enabled = vim.g.ai_cmp,
+        },
+        trigger = {
+          show_in_snippet = false
         },
         list = {
           selection = {
@@ -60,7 +64,7 @@ return {
       },
 
       keymap = {
-        preset = "enter",
+        preset = "super-tab",
         ["<C-y>"] = { "select_and_accept" },
         ["<S-CR>"] = { "fallback" },
       },
