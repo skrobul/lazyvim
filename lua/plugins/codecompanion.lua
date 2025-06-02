@@ -39,9 +39,9 @@ return {
             },
             schema = {
               model = {
-                default = "meta-llama/llama-4-scout-17b-16e-instruct"
-              }
-            }
+                default = "meta-llama/llama-4-scout-17b-16e-instruct",
+              },
+            },
           })
         end,
 
@@ -65,18 +65,49 @@ return {
         },
       },
 
-      -- prompt_library = {
-      --   ["Unit tests(pytest)"] = {
-      --     strategy = "chat",
-      --     description = "Generate unit tests (pytest)",
-      --
-      --   }
-      -- }
+      prompt_library = {
+        ["Unit tests(pytest)"] = {
+          strategy = "chat",
+          description = "Generate unit tests (pytest)",
+          prompts = {
+            { role = "system", content = "You are an expert Python programmer." },
+            {
+              role = "user",
+              content = [[
+<user_prompt>generate unit tests for this code. validate both
+success and failure, and include edge cases. the testing
+framework to be used is pytest, with pytest-mock enabled. when
+mocking is needed, take advantage of 'mocker' fixture. don't
+include any comments in the code. keep it simple and
+concise. Make sure to preserve indentation where it is relevant. </user_prompt>
+]],
+            },
+          },
+        },
+        ["Code review"] = {
+          strategy = "chat",
+          description = "Review this code",
+          prompts = {
+            {
+              role = "user",
+              content = [[
+I want you to act as a Code reviewer who is experienced developer in the given
+code language. I will provide you with the code block or methods or code file
+along with the code language name, and I would like you to review the code and
+share the feedback, suggestions and alternative recommended approaches. Please
+write explanations behind the feedback or suggestions or alternative
+approaches. Reply in English using professional tone for everyone. Make sure to
+preserve indentation where it is relevant.
+]],
+            },
+          },
+        },
+      },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "ravitemer/codecompanion-history.nvim"
+      "ravitemer/codecompanion-history.nvim",
     },
   },
 }
