@@ -1,3 +1,4 @@
+local ls = require("luasnip")
 return {
   {
     "saghen/blink.cmp",
@@ -6,6 +7,7 @@ return {
     },
     opts = {
       snippets = {
+        preset = "luasnip",
         expand = function(snippet, _)
           return LazyVim.cmp.expand(snippet)
         end,
@@ -20,7 +22,7 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
-        keyword = { range = "prefix"},
+        keyword = { range = "prefix" },
         accept = {
           -- experimental auto-brackets support
           auto_brackets = {
@@ -40,7 +42,7 @@ return {
           enabled = vim.g.ai_cmp,
         },
         trigger = {
-          show_in_snippet = false
+          show_in_snippet = false,
         },
         list = {
           selection = {
