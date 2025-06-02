@@ -44,7 +44,7 @@
       ""
     ]
   },
-  "undercloud_adr": {
+  "ADR": {
     "prefix": "undercloudADR",
     "body": [
       "---",
@@ -52,7 +52,7 @@
       "adr:",
       "  author: Marek Skrobacki",
       "  created: ${3:$CURRENT_DATE-$CURRENT_MONTH_NAME_SHORT-$CURRENT_YEAR}",
-      "  status: proposed",
+      "  status: ${4|draft,proposed,accepted,rejected,accepted,superseded|}",
       "---",
       "",
       "## Summary",
