@@ -1,8 +1,8 @@
 return {
   {
     "NeogitOrg/neogit",
-    dev = true,
-    dir = "/home/skrobul/devel/neogit/",
+    -- dev = true,
+    -- dir = "/home/skrobul/devel/neogit/",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration

@@ -1,13 +1,20 @@
 return {
   "ibhagwan/fzf-lua",
   opts = {
-    files = {
-      previewer = false
+    -- files = {
+    --   previewer = false,
+    -- },
+    defaults = {
+      keymap = {
+        builtin = {
+          ["<M-p>"] = "toggle-preview",
+        },
+      },
     },
-    keymap = {
-      builtin = {
-        ["<M-p>"] = "toggle-preview"
+    winopts = {
+      preview = {
+        border = "border-top"
       }
     }
-  }
+  },
 }
