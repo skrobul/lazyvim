@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
     highlight = { enable = true },
-    indent = { enable = true },
+    indent = { enable = true, disable = { 'markdown'} },
     ensure_installed = {
       "bash",
       "c",
