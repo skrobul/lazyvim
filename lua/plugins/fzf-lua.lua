@@ -12,9 +12,11 @@ return {
       },
     },
     winopts = {
+      fullscreen = true,
       preview = {
-        border = "border-top"
-      }
-    }
+        border = "border-top",
+        hidden = true, -- use alt-p to show
+      },
+    },
   },
 }
