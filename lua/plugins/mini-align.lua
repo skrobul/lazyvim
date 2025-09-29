@@ -1,6 +1,6 @@
 return {
   {
-    'echasnovski/mini.align',
+    'nvim-mini/mini.align',
     version = '*',
     keys = {
       {"ga", desc = "align text", mode = {"n", "v"} },

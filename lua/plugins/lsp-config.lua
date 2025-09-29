@@ -163,6 +163,9 @@ return {
           formatting_options = nil,
           timeout_ms = nil,
         },
+        folds = {
+          enabled = true
+        },
         -- LSP Server Settings
         ---@type lspconfig.options
         servers = {
@@ -198,15 +201,15 @@ return {
             },
           },
           yamlls = {
-            -- Have to add this for yamlls to understand that we support line folding
-            capabilities = {
-              textDocument = {
-                foldingRange = {
-                  dynamicRegistration = false,
-                  lineFoldingOnly = true,
-                },
-              },
-            },
+            -- -- Have to add this for yamlls to understand that we support line folding
+            -- capabilities = {
+            --   textDocument = {
+            --     foldingRange = {
+            --       dynamicRegistration = false,
+            --       lineFoldingOnly = true,
+            --     },
+            --   },
+            -- },
             -- lazy-load schemastore when needed
             on_new_config = function(new_config)
               new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}

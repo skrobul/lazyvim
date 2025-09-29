@@ -29,8 +29,16 @@ return {
     opts = {
       graph_style = "unicode",
       git_services = {
-        ["github.com"] = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
-        ["github.rackspace.com"] = "https://github.rackspace.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+          ["github.com"] = {
+            pull_request = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+            commit = "https://github.com/${owner}/${repository}/commit/${oid}",
+            tree = "https://${host}/${owner}/${repository}/tree/${branch_name}"
+          },
+          ["github.rackspace.com"] = {
+            pull_request = "https://github.rackspace.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+            commit = "https://github.rackspace.com/${owner}/${repository}/commit/${oid}",
+            tree = "https://${host}/${owner}/${repository}/tree/${branch_name}"
+          }
       },
       disable_insert_on_commit = false,
       mappings = {
