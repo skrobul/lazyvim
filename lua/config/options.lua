@@ -23,3 +23,4 @@ opt.laststatus = 2
 
 vim.g.snacks_animate = false
 vim.g.lazyvim_blink_main = false
+vim.g.trouble_lualine = false
