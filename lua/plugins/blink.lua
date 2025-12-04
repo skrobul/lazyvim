@@ -2,7 +2,7 @@ local ls = require("luasnip")
 return {
   {
     "saghen/blink.cmp",
-    tag = "v1.3.1",
+    -- tag = "v1.3.1",
     dependencies = {
       { "saghen/blink.compat" },
     },
@@ -65,12 +65,7 @@ return {
         compat = { "obsidian", "obsidian_new", "obsidian_tags" },
         default = { "lsp", "path", "snippets", "buffer" },
       },
-
-      keymap = {
-        preset = "super-tab",
-        ["<C-y>"] = { "select_and_accept" },
-        ["<S-CR>"] = { "fallback" },
-      },
-    },
-  },
+      keymap = { preset = "default" }
+  }
+}
 }

@@ -147,15 +147,6 @@ return {
         document_highlight = {
           enabled = true,
         },
-        -- add any global capabilities here
-        capabilities = {
-          workspace = {
-            fileOperations = {
-              didRename = true,
-              willRename = true,
-            },
-          },
-        },
         -- options for vim.lsp.buf.format
         -- `bufnr` and `filter` is handled by the LazyVim formatter,
         -- but can be also overridden when specified
@@ -164,11 +155,23 @@ return {
           timeout_ms = nil,
         },
         folds = {
-          enabled = true
+          enabled = true,
         },
         -- LSP Server Settings
         ---@type lspconfig.options
         servers = {
+          ["*"] = {
+
+            -- add any global capabilities here
+            capabilities = {
+              workspace = {
+                fileOperations = {
+                  didRename = true,
+                  willRename = true,
+                },
+              },
+            },
+          },
           lua_ls = {
             -- mason = false, -- set to false if you don't want this server to be installed with mason
             -- Use this to add any additional keymaps
@@ -243,16 +246,16 @@ return {
           -- Specify * to use this function as a fallback for any server
           -- ["*"] = function(server, opts) end,
           yamlls = function()
-            require("lazyvim.util").lsp.on_attach(function(client, bufnr)
-              if client.name == "yamlls" and vim.bo.filetype == "helm" then
-                vim.lsp.stop_client(bufnr, client.id)
+            Snacks.util.lsp.on({ name = "yamlls" }, function(buffer, client)
+              if client.name == "yamlls" and vim.bo[buffer].filetype == "helm" then
+                vim.lsp.stop_client(client.id)
               end
             end)
           end,
         },
       }
       return ret
-    end
+    end,
   },
   {
     "someone-stole-my-name/yaml-companion.nvim",
