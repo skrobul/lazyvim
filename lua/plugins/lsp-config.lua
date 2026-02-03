@@ -233,6 +233,17 @@ return {
               },
             },
           },
+          solargraph = {
+            mason = false, -- Disable Mason for this server
+            cmd = { "bundle", "exec", "solargraph", "stdio" }, -- Explicitly use the binary from PATH
+            -- Optional: settings for Solargraph
+            settings = {
+              solargraph = {
+                diagnostics = true,
+                formatting = true,
+              },
+            },
+          },
         },
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
