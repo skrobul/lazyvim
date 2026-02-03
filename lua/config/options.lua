@@ -24,3 +24,12 @@ opt.laststatus = 2
 vim.g.snacks_animate = false
 vim.g.lazyvim_blink_main = false
 vim.g.trouble_lualine = false
+-- Add high-accuracy algorithms and smarter line matching
+vim.opt.diffopt = vim.opt.diffopt
+  + "internal"
+  + "filler"
+  + "closeoff"
+  + "indent-heuristic"
+  + "algorithm:histogram"
+  + "linematch:60"
+
