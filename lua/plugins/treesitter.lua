@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
     highlight = { enable = true },
-    indent = { enable = true, disable = { 'markdown'} },
+    indent = { enable = true, disable = { "markdown" } },
     ensure_installed = {
       "bash",
       "c",
@@ -49,4 +49,13 @@ return {
       },
     },
   },
+  build = ":TSUpdate",
+  lazy = false,
+  branch = "main",
+  config = function()
+    local ts = require("nvim-treesitter")
+
+    ts.setup({})
+    ts.install({ "vim" })
+  end,
 }
