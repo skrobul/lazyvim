@@ -14,9 +14,9 @@ return {
       {
         "<leader>gn",
         function()
-          require("neogit").open({ cwd = LazyVim.root.git() })
+          require("neogit").open({ cwd = LazyVim.root.git(), kind="floating" })
         end,
-        desc = "Neogit (full)",
+        desc = "Neogit (floating)",
       },
       {
         "<leader>gN",
