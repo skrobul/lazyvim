@@ -20,6 +20,10 @@
       {
         "language": "python",
         "path": "./python.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./yaml.json"
       }
     ]
   }

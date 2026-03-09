@@ -1,0 +1,22 @@
+{
+  "PasswordSafe taskquor generator": {
+    "prefix": "pwsafetaskquor",
+    "body": [
+      "apiVersion: taskquor/v1",
+      "kind: SecretGenerator",
+      "metadata:",
+      "  name: ${1:secret-name}",
+      "  annotations:",
+      "    link.argocd.argoproj.io/external-link: \"https://passwordsafe.corp.rackspace.com/projects/${2:<projectid>}/credentials/${3:<credential_id>}\"",
+      "    config.kubernetes.io/function: |",
+      "      exec:",
+      "        path: taskquor-kustomize",
+      "type: Opaque",
+      "secret:",
+      "  - project: ${2}",
+      "    cred: ${3}",
+      "    user: ${4:username}",
+      "    password: ${5:password}"
+    ]
+  }
+}
