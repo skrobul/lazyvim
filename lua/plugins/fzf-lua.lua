@@ -12,7 +12,7 @@ return {
       },
     },
     winopts = {
-      fullscreen = true,
+      fullscreen = false,
       preview = {
         border = "border-top",
         hidden = true, -- use alt-p to show

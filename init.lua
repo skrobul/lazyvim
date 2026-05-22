@@ -1,1 +1,1 @@
-require("config.lazy")
+/nix/store/lkf5ryfq02f7wp0d0ddxhh2xp1hjni7c-home-manager-files/.config/nvim/init.lua

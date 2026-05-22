@@ -6,6 +6,7 @@ return {
       { "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
       { "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
     },
+    enabled = false,
     opts = {
       options = {
         -- mode = "tabs",
