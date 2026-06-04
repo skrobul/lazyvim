@@ -116,9 +116,7 @@ return {
             spacing = 4,
             source = "if_many",
             prefix = "●",
-            -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-            -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-            -- prefix = "icons",
+            current_line = true,
           },
           severity_sort = true,
           signs = {
@@ -384,12 +382,20 @@ return {
     dependencies = {
       { "neovim/nvim-lspconfig" },
       { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
       { "b0o/SchemaStore.nvim" },
     },
     ft = "yaml",
+    keys = {
+      {
+        "<leader>ys",
+        function()
+          require("yaml-companion").open_ui_select()
+        end,
+        desc = "Select YAML schema",
+        ft = "yaml",
+      },
+    },
     config = function()
-      require("telescope").load_extension("yaml_schema")
 
       local extra_companion_schemas = {}
       for _, schema in ipairs(extra_schemes) do
@@ -399,7 +405,7 @@ return {
       local cfg = require("yaml-companion").setup({
 
         -- Add any options here, or leave empty to use the default settings
-        -- Additional schemas available in Telescope picker
+        -- Additional schemas available in the schema picker (<leader>ys)
         schemas = extra_companion_schemas,
         builtin_matchers = {
           kubernetes = { enabled = true },
