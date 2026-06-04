@@ -52,10 +52,10 @@ return {
   build = ":TSUpdate",
   lazy = false,
   branch = "main",
-  config = function()
+  config = function(_, opts)
     local ts = require("nvim-treesitter")
 
-    ts.setup({})
+    ts.setup(opts)
     ts.install({ "vim" })
   end,
 }

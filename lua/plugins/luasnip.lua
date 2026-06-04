@@ -1,5 +1,3 @@
-local ls = require("luasnip")
-
 return {
   "L3MON4D3/LuaSnip",
   lazy = true,
@@ -17,6 +15,7 @@ return {
     {
       "<c-e>",
       function()
+        local ls = require("luasnip")
         if ls.choice_active() then
           ls.change_choice(1)
         end

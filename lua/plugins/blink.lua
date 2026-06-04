@@ -1,4 +1,3 @@
-local ls = require("luasnip")
 return {
   {
     "saghen/blink.cmp",
@@ -62,10 +61,15 @@ return {
       sources = {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
-        compat = { "obsidian", "obsidian_new", "obsidian_tags" },
+        -- compat = { "obsidian", "obsidian_new", "obsidian_tags" },
         default = { "lsp", "path", "snippets", "buffer" },
+        providers = {
+          buffer = {
+            min_keyword_length = 4,
+          },
+        },
       },
-      keymap = { preset = "default" }
-  }
-}
+      keymap = { preset = "default" },
+    },
+  },
 }

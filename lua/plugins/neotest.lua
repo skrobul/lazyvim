@@ -7,11 +7,11 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "olimorris/neotest-rspec",
     },
-    -- opts = {
-    --   adapters = {
-    --     require("neotest-python"),
-    --     require("neotest-rspec"),
-    --   },
-    -- },
+    opts = {
+      adapters = {
+        require("neotest-python"),
+        require("neotest-rspec"),
+      },
+    },
   },
 }
